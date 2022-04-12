@@ -1,45 +1,47 @@
 #include <stdio.h>
 /**
-* main - print the first 98 fibonacci numbers.
-* Return: Nothing.
+* main - Entry point
+*
+* Description: prints the first 98 Fibonacci numbers
+*	starting with 1 and 2 followed by a new line
+*
+*	Solution was copied from Nobert Patrick
+*	Wise, github handle: Trikcode
+*
+* Return: Always 0 (Success)
 */
+
 int main(void)
 {
-int count;
-unsigned long i, j, k;
-unsigned long m, n, p, carry;
+int count, initial0s;
+unsigned long f1 = 1, f2 = 2, sum, mx = 100000000, f1o = 0, f2o = 0, sumo = 0;
 
-count = 0;
-i = 0;
-j = 1;
-for (count = 1; count <= 91; count++)
+for (count = 1; count <= 98; ++count)
 {
-k = i + j;
-i = j;
-j = k;
-printf("%lu, ", k);
+if (f1o > 0)
+printf("%lu", f1o);
+initial0s = numLength(mx) - 1 - numLength(f1);
+
+while (f1o > 0 && initial0s > 0)
+{
+printf("%d", 0);
+--initial0s;
 }
-m = i % 1000;
-i = i / 1000;
-n = j % 1000;
-j = j / 1000;
-while (count <= 98)
-{
-carry = (m + n) / 1000;
-p = (m + n) - carry * 1000;
-k = (i + j) + carry;
-m = n;
-n = p;
-i = j;
-j = k;
-if (p >= 100)
-printf("%lu%lu", k, p);
-else
-printf("%lu0%lu", k, p);
+
+printf("%lu", f1);
+
+sum = (f1 + f2) % mx;
+sumo = f1o + f2o + (f1 + f2) / mx;
+f1 = f2;
+f1o = f2o;
+f2 = sum;
+f2o = sumo;
+
 if (count != 98)
 printf(", ");
-count++;
+else
+printf("\n");
 }
-putchar('\n');
+
 return (0);
 }
