@@ -8,20 +8,21 @@
  */
 void jack_bauer(void)
 {
-int i,j;
-for (i = 0; i <= 23; i++)
+for (int i = 0; i <= 23; i++)
 {
-for (j = 0; j < 60; j++)
+
+for (int j = 0; j < 60; j++)
 {
 if (i < 10)
 {
 if (j < 10)
 {
-printf("0%d:0%d",i , j);
+_putchar('0' + i + ':0' + j);
 printf("\n");
 }
 else
 {
+_putchar('0' + i + ':' + j);
 printf("0%d:%d",i , j);
 printf("\n");
 }
@@ -30,14 +31,13 @@ else
 {
 if (j < 10)
 {
-printf("%d:0%d", i, j);
+_putchar( i + ':0' + j);
 printf("\n");
 }
 else
 {
-printf("%d:%d",i , j);
+_putchar(i + ':' + j);
 printf("\n");
-}
 }
 }
 }
