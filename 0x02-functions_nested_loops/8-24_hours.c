@@ -17,12 +17,12 @@ if (i < 10)
 {
 if (j < 10)
 {
-_putchar('0' + i + '\:0' + j);
+_putchar('0' + i + ':' + '0' + j);
 _putchar('\n');
 }
 else
 {
-_putchar('0' + i + '\:' + j);
+_putchar('0' + i + ':' + '0' + j);
 _putchar('\n');
 }
 }
@@ -30,7 +30,7 @@ else
 {
 if (j < 10)
 {
-_putchar( i + '\:0' + j);
+_putchar( i + ':' + '0' + j);
 _putchar('\n');
 }
 else
