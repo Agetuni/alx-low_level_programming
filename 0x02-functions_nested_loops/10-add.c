@@ -6,8 +6,8 @@
  *
  * Return: Void.
  */
- int void(int n, int m) 
+void add(int n, int m) 
 {
 int sum = n + m;
-_printf(sum);
+_putchar(sum);
 }
