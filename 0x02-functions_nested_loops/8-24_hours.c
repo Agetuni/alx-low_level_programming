@@ -8,10 +8,10 @@
  */
 void jack_bauer(void)
 {
-for (int i = 0; i <= 23; i++)
+int i,j;
+for (i = 0; i <= 23; i++)
 {
-
-for (int j = 0; j < 60; j++)
+for (j = 0; j < 60; j++)
 {
 if (i < 10)
 {
@@ -25,7 +25,6 @@ else
 printf("0%d:%d",i , j);
 printf("\n");
 }
-
 }
 else
 {
