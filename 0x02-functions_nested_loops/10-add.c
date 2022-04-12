@@ -1,13 +1,12 @@
 #include "main.h"
-
 /**
- * Main - unction that adds two integers and returns the result.
- * 
- *
- * Return: Void.
- */
-void add(int n, int m) 
+* add - adds two numbers together.
+* @i: The first number to be added.
+* @j: The second number to be added.
+* Return: the sum of two numbers.
+*/
+int add(int i, int j)
 {
-int sum = n + m;
-_putchar(sum);
+return (i + j);
 }
+
