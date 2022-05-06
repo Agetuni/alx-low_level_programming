@@ -1,203 +1,147 @@
 #include "main.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 /**
- * print_str - Prints a string
- * @str: The string to print
+ * _print - moves a string one place to the left and prints the string
+ * @str: string to move
+ * @l: size of string
+ *
+ * Return: void
  */
-void print_str(char *str)
+void _print(char *str, int l)
 {
-	int i = 0;
+	int i, j;
 
-	for (i = 0; str && *(str + i) != '\0'; i++)
-		_putchar(*(str + i));
+	i = j = 0;
+	while (i < l)
+	{
+		if (str[i] != '0')
+			j = 1;
+		if (j || i == l - 1)
+			_putchar(str[i]);
+		i++;
+	}
+
 	_putchar('\n');
+	free(str);
 }
 
 /**
- * program_fail - Computes the program failure instructions
+ * mul - multiplies a char with a string and places the answer into dest
+ * @n: char to multiply
+ * @num: string to multiply
+ * @num_index: last non NULL index of num
+ * @dest: destination of multiplication
+ * @dest_index: highest index to start addition
+ *
+ * Return: pointer to dest, or NULL on failure
  */
-void program_fail()
+char *mul(char n, char *num, int num_index, char *dest, int dest_index)
 {
-	print_str("Error");
-	exit(98);
-}
+	int j, k, mul, mulrem, add, addrem;
 
-/**
- * validate_input - Ensures that this program's arguments are valid
- * @num1: The first argument
- * @num2: The second argument
- */
-void validate_input(char *num1, char *num2)
-{
-	int len1, len2;
-
-	for (len1 = 0; *(num1 + len1) != '\0'; len1++)
+	mulrem = addrem = 0;
+	for (j = num_index, k = dest_index; j >= 0; j--, k--)
 	{
-		if (!(*(num1 + len1) >= '0' && *(num1 + len1) <= '9'))
-			program_fail();
+		mul = (n - '0') * (num[j] - '0') + mulrem;
+		mulrem = mul / 10;
+		add = (dest[k] - '0') + (mul % 10) + addrem;
+		addrem = add / 10;
+		dest[k] = add % 10 + '0';
 	}
-	for (len2 = 0; *(num2 + len2) != '\0'; len2++)
+	for (addrem += mulrem; k >= 0 && addrem; k--)
 	{
-		if (!(*(num2 + len2) >= '0' && *(num2 + len2) <= '9'))
-			program_fail();
+		add = (dest[k] - '0') + addrem;
+		addrem = add / 10;
+		dest[k] = add % 10 + '0';
 	}
+	if (addrem)
+	{
+		return (NULL);
+	}
+	return (dest);
 }
-
 /**
- * set_strlen - Sets the length of a string
- * @str: The source string
- * @len: The pointer to the length of the string
+ * check_for_digits - checks the arguments to ensure they are digits
+ * @av: pointer to arguments
+ *
+ * Return: 0 if digits, 1 if not
  */
-void set_strlen(char *str, int *len)
+int check_for_digits(char **av)
 {
-	*len = 0;
-	while (str && *(str + *len) != '\0')
-		*len += 1;
+	int i, j;
+
+	for (i = 1; i < 3; i++)
+	{
+		for (j = 0; av[i][j]; j++)
+		{
+			if (av[i][j] < '0' || av[i][j] > '9')
+				return (1);
+		}
+	}
+	return (0);
 }
 
 /**
- * fill_str - Fills the first n bytes of a string with a given character
- * @str: The string to be filled
- * @n: The number of bytes to fill
- * @c: The character to fill the positions with
+ * init - initializes a string
+ * @str: sting to initialize
+ * @l: length of strinf
+ *
+ * Return: void
  */
-void fill_str(char *str, int n, char c)
+void init(char *str, int l)
 {
 	int i;
 
-	for (i = 0; str && i < n; i++)
-		*(str + i) = c;
+	for (i = 0; i < l; i++)
+		str[i] = '0';
+	str[i] = '\0';
 }
 
 /**
- * left_shift - Shifts a string to the left for a given number of bytes
- * @str: The string to shift
- * @num: The number of bytes to shift the string by
- * @len: The length of the string
- */
-void left_shift(char *str, int num, int len)
-{
-	int i, j;
-
-	for (i = 0; i < num; i++)
-	{
-		for (j = 1; j <= len; j++)
-		{
-			*(str + j - 1) = *(str + j) != '\0' && *(str + j - 1) != '\0'
-				? *(str + j) : '\0';
-		}
-	}
-}
-
-/**
- * multiply - Computes the product of a number and a multiple of 10
- * @num: The first number
- * @multiple: The second number (a multiple of 10)
+ * main - multiply two numbers
+ * @argc: number of arguments
+ * @argv: argument vector
  *
- * Return: A pointer containing the result, otherwise program fails
- */
-char *multiply(char *num, char *multiple)
-{
-	int size, mult_len, num_len;
-	int i, j;
-	char *result, rem;
-	char carry = 0;
-
-	set_strlen(multiple, &mult_len);
-	set_strlen(num, &num_len);
-	size = mult_len + num_len;
-	result = malloc(sizeof(char) * (size + 1));
-	if (result)
-	{
-		fill_str(result, size, '0');
-		*(result + size) = '\0';
-		mult_len--;
-		j = size - mult_len - 1;
-		for (i = 1; i <= mult_len; i++)
-			*(result + size - i) = '0';
-		for (i = num_len - 1; i >= 0; i--)
-		{
-			rem = ((*(num + i) - '0') * (*multiple - '0') + carry) % 10;
-			carry = ((*(num + i) - '0') * (*multiple - '0') + carry) / 10;
-			*(result + j) = rem + '0';
-			j--;
-		}
-		if (carry > 0)
-			*(result + j) = carry + '0';
-		if (*result == '0')
-			left_shift(result, 1, size);
-		return (result);
-	}
-	program_fail();
-}
-
-/**
- * add - Adds two numbers and stores the result in the second number
- * @n1: The first number
- * @n2: The second number
- * @size_r: The size of the result buffer
- */
-void add(char *num, char *r, int size_r)
-{
-	int idx_num, idx_r;
-	char dig1, dig2, carry, rem;
-
-	set_strlen(num, &idx_num);
-	carry = 0;
-	idx_num--;
-	for (idx_r = size_r - 1; idx_r >= 0; idx_r--)
-	{
-		dig1 = idx_num >= 0 ? *(num + idx_num) - '0' : 0;
-		dig2 = idx_r >= 0 ? *(r + idx_r) - '0' : 0;
-		rem = (dig1 + dig2 + carry) % 10;
-		carry = (dig1 + dig2 + carry) / 10;
-		*(r + idx_r) = rem + '0';
-		idx_num--;
-	}
-}
-
-/**
- * main - A program that computes the product of two numbers
- * \ that are passed to it
- * @argc: The number of command-line arguments
- * @argv: The command-line arguments
- *
- * Return: 0 if successful, otherwise 98
+ * Return: zero, or exit status of 98 if failure
  */
 int main(int argc, char *argv[])
 {
-	char *num1, *num2;
-	int size, i, len2;
-	char *result;
+	int l1, l2, ln, ti, i;
+	char *a;
+	char *t;
+	char e[] = "Error\n";
 
-	if (argc == 3)
+	if (argc != 3 || check_for_digits(argv))
 	{
-		num1 = argv[1];
-		num2 = argv[2];
-		validate_input(num1, num2);
-		set_strlen(num1, &size);
-		set_strlen(num2, &len2);
-		size += len2;
-		result = malloc(sizeof(char) * (size + 1));
-		if (result)
+		for (ti = 0; e[ti]; ti++)
+			_putchar(e[ti]);
+		exit(98);
+	}
+	for (l1 = 0; argv[1][l1]; l1++)
+		;
+	for (l2 = 0; argv[2][l2]; l2++)
+		;
+	ln = l1 + l2 + 1;
+	a = malloc(ln * sizeof(char));
+	if (a == NULL)
+	{
+		for (ti = 0; e[ti]; ti++)
+			_putchar(e[ti]);
+		exit(98);
+	}
+	init(a, ln - 1);
+	for (ti = l2 - 1, i = 0; ti >= 0; ti--, i++)
+	{
+		t = mul(argv[2][ti], argv[1], l1 - 1, a, (ln - 2) - i);
+		if (t == NULL)
 		{
-			fill_str(result, size, '0');
-			*(result + size) = '\0';
-			for (i = 0; i < len2; i++)
-			{
-				char *product = multiply(num1, num2 + i);
-
-				add(product, result, size);
-				free(product);
-			}
-			while (*result == '0' && *(result + 1) != '\0')
-				left_shift(result, 1, size);
-			print_str(result);
-			free(result);
-			return (0);
+			for (ti = 0; e[ti]; ti++)
+				_putchar(e[ti]);
+			free(a);
+			exit(98);
 		}
 	}
-	program_fail();
+	_print(a, ln - 1);
+	return (0);
 }
