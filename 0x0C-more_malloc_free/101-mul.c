@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "holberton.h"
+#include "main.h"
 
 /**
  * _calloc - allocate (`size' * `nmemb') bytes and set to 0
