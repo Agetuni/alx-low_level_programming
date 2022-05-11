@@ -1,35 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 /**
- * main - prints opcode of own main function
+ * main - check the code for Holberton School students.
+ * @argc: argument count.
+ * @argv: argument vector.
  *
- * @argc: argument count
- * @argv: arg value
- * Return: int
+ * Return: Always 0.
  */
 int main(int argc, char *argv[])
 {
-	int x, i;
-	unsigned char *p;
+	char *opc = (char *) main;
+	int i, nbytes;
 
 	if (argc != 2)
 	{
 		printf("Error\n");
 		exit(1);
 	}
-	x = atoi(argv[1]);
-	if (x < 0)
+
+	nbytes = atoi(argv[1]);
+
+	if (nbytes < 0)
 	{
 		printf("Error\n");
 		exit(2);
 	}
-	p = (unsigned char *)main;
-	i = 0;
-	if (x > 0)
+
+	for (i = 0; i < nbytes; i++)
 	{
-		while (i < (x - 1))
-			printf("%02hhx ", p[i++]);
-		printf("%hhx\n", p[i]);
+		printf("%02x", opc[i] & 0xFF);
+		if (i != nbytes - 1)
+			printf(" ");
 	}
+
+	printf("\n");
 	return (0);
 }
