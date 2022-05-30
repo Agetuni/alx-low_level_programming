@@ -1,11 +1,11 @@
 include "main.h"
 
 /**
- * copies src to desinations
- * @file_to:  destination file
- * @file_from:  source file
+ * cp - copies src to desinations
+ * @file_to: the destination file
+ * @file_from: the source file
  *
- * Return: int
+ * Return: integer
  */
 int cp(char *file_to, char *file_from)
 {
@@ -51,9 +51,9 @@ int cp(char *file_to, char *file_from)
 }
 
 /**
- * the main function
- * @ac:  argument count
- * @av:  argument vector
+ * main - the main function
+ * @ac: the argument count
+ * @av: the argument vector
  *
  * Return: always 0
  */
