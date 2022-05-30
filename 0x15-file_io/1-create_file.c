@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- *  create a file and write in it
+ * create_file - make a new file and add some content in it
  * @filename:file going to be created
  * @text_content: content of the file 
  * Return: 1 or -1;
